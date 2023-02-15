@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'firebase_options.dart';
 
-void main() {
-  runApp(MyApp());
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(MyApp());8
 }
 class MyApp extends StatelessWidget{
   @override
@@ -55,6 +62,15 @@ class HomeStart extends State<Home>{
                       hintText: 'digite contraseña de usuario'
                   ),
                 ),
+              ),
+              Padding(padding: EdgeInsets.only(top: 20, left: 10,right: 10),
+              child: ElevatedButton(
+                onPressed: (){
+                  print('Boton presionado');
+
+                },
+                child: Text('Enviar'),
+              ),
               ),
             ]
           ),
