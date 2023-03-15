@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:pproyecto/DTO/User.dart';
 import 'package:pproyecto/firebase_options.dart';
+import 'package:crypto/crypto.dart';
+import 'dart:convert';
 
 class Registro extends StatefulWidget {
+  final User cadena;
+  Registro(this.cadena);
   @override
   RegistroApp createState() => RegistroApp();
 }
@@ -24,7 +29,7 @@ class RegistroApp extends State<Registro>{
         "IdentidadUsuario":identidad.text,
         "CorreoUsuario":correo.text,
         "TelefonoUsuario":telefono.text,
-        "ContraseñaUsuario":password.text,
+        "PasswordUsuario":password.text,
       });
       print('envio correcto');
     }catch(e){
@@ -38,7 +43,7 @@ class RegistroApp extends State<Registro>{
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Registro de usuarios'),
+        title: Text('Registro de usuarios --->'+widget.cadena.nombre),
         backgroundColor: Colors.deepOrangeAccent,
       ),
       body: SingleChildScrollView(
@@ -134,12 +139,26 @@ class RegistroApp extends State<Registro>{
             Padding(padding: EdgeInsets.only(top: 20, left: 10,right: 10),
               child: ElevatedButton(
                 onPressed: (){
-                  print(nombre.text);
-                  print(identidad.text);
-                  print(correo.text);
-                  print(telefono.text);
-                  //correo.text='boton presionado';
-                  insertarDatos();
+                  print('Enviando....');
+
+                  if((correo.text.length!=0)&&(identidad.text.length!=0)&&(nombre.text.length!=0)&&(password.text.length!=0)&&(telefono.text.length!=0)){
+                    var bytes = utf8.encode(password.text);
+                    var encriptado = sha256.convert(bytes);
+                    password.text = encriptado.toString();
+                    print(encriptado);
+                    insertarDatos();
+                    correo.clear();
+                    identidad.clear();
+                    nombre.clear();
+                    telefono.clear();
+                    password.clear();
+
+                  }else{
+                    print('Todos los campos son olbigatorios');
+                    print('Rellenar los campos en blanco');
+                  }
+
+
 
                 },
                 child: Text('Registrar',
