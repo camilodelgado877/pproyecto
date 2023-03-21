@@ -30,13 +30,30 @@ class RegistroApp extends State<Registro>{
         "CorreoUsuario":correo.text,
         "TelefonoUsuario":telefono.text,
         "PasswordUsuario":password.text,
+        "Rol":'Invitado',
+        "Estado":true,
       });
       print('envio correcto');
+      mensaje('Información', 'Registro correcto');
     }catch(e){
       print('Error en insert ......  '+ e.toString());
     }
   }
-
+  void mensaje(String titulo, String contenido){
+    showDialog(context: context, builder: (buildcontext){
+      return AlertDialog(
+        title: Text(titulo),
+        content: Text(contenido),
+        actions: <Widget>[
+          ElevatedButton(
+            onPressed: (){
+              Navigator.pop(context);
+            },
+            child: Text('Aceptar', style: TextStyle(color: Colors.blueGrey),),
+          )
+        ],);
+    });
+  }
 
   @override
   Widget build(BuildContext context){
@@ -173,4 +190,5 @@ class RegistroApp extends State<Registro>{
     );
 
   }
+
 }

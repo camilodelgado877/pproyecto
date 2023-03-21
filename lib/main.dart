@@ -32,6 +32,7 @@ class HomeStart extends State<Home>{
   TextEditingController password = TextEditingController();
   User objUser = User();
 
+
   validarDatos() async{
     try{
       CollectionReference ref= FirebaseFirestore.instance.collection('Usuarios');
@@ -45,8 +46,10 @@ class HomeStart extends State<Home>{
             print(cursor.get('IdentidadUsuario'));
             if(cursor.get('PasswordUsuario')==password.text){
               print('*************Acceso aceptado****************');
+              mensaje('Información',('Bienvenido '+cursor.get('Rol')));
               objUser.nombre= cursor.get('NombreUsuario');
-
+              objUser.id= cursor.get('IdentidadUsuario');
+              objUser.rol='Adminstrador';
               correo.clear();
               password.clear();
             }
@@ -61,7 +64,21 @@ class HomeStart extends State<Home>{
       print('Error....'+e.toString());
     }
   }
-
+  void mensaje(String titulo, String contenido){
+    showDialog(context: context, builder: (buildcontext){
+      return AlertDialog(
+        title: Text(titulo),
+        content: Text(contenido),
+        actions: <Widget>[
+          ElevatedButton(
+            onPressed: (){
+              Navigator.pop(context);
+            },
+            child: Text('Aceptar', style: TextStyle(color: Colors.blueGrey),),
+          )
+        ],);
+    });
+  }
   Widget build(BuildContext context){
     return MaterialApp(
       title: 'Bienvenidos',
@@ -111,11 +128,10 @@ class HomeStart extends State<Home>{
 
                   if((correo.text.length!=0)&&(password.text.length!=0)){
                     var bytes = utf8.encode(password.text);
-                    var encriptado = sha256.convert(bytes);
-                    password.text = encriptado.toString();
-                    print(encriptado);
+                    password.text = (sha256.convert(bytes)).toString();
                     print('Ingresando.....');
                     validarDatos();
+
 
 
 
