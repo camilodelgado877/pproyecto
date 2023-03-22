@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:pproyecto/View/HomeAdministrador.dart';
+import 'package:pproyecto/View/Invitado.dart';
 import 'package:pproyecto/View/Registro.dart';
 import 'firebase_options.dart';
-import 'package:pproyecto/View/Registro.dart';
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
 import 'DTO/User.dart';
@@ -49,7 +50,7 @@ class HomeStart extends State<Home>{
               mensaje('Información',('Bienvenido '+cursor.get('Rol')));
               objUser.nombre= cursor.get('NombreUsuario');
               objUser.id= cursor.get('IdentidadUsuario');
-              objUser.rol='Adminstrador';
+              objUser.rol=cursor.get("Rol");
               correo.clear();
               password.clear();
             }
@@ -73,6 +74,12 @@ class HomeStart extends State<Home>{
           ElevatedButton(
             onPressed: (){
               Navigator.pop(context);
+              if(objUser.rol=='Administrador'){
+                Navigator.push(context, MaterialPageRoute(builder: (_) => HomeAdministrador()));
+              }else if(objUser.rol=='Invitado'){
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => HomeInvitado()));
+                }
+
             },
             child: Text('Aceptar', style: TextStyle(color: Colors.blueGrey),),
           )
