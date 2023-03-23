@@ -13,7 +13,7 @@ class HomeInvitadoApp extends State<HomeInvitado>{
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Adminsitrador'),
+        title: Text('Invitado'),
         backgroundColor: Colors.lightBlueAccent,
       ),
     );
