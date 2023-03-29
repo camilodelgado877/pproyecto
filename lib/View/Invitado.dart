@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pproyecto/View/Geoposition.dart';
 
 
 class HomeInvitado extends StatefulWidget {
@@ -15,7 +16,19 @@ class HomeInvitadoApp extends State<HomeInvitado>{
       appBar: AppBar(
         title: Text('Invitado'),
         backgroundColor: Colors.lightBlueAccent,
-      ),
+      ),body: Column(
+        children: [
+          Padding(padding: EdgeInsets.only(top: 20, left: 10,right: 10),
+                  child: ElevatedButton(
+                    onPressed: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (_) => Geoposition()));
+
+                    },
+                    child: Text('Enviar'),
+                  ),
+                ),
+        ],
+      )
     );
 
   }
